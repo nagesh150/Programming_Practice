@@ -12,20 +12,20 @@
 ```mermaid
 graph TD
     subgraph Bare_Metal
-        S1[Start] --> Loop{while(1)}
+        S1[Start] --> Loop{while 1}
         Loop --> TaskA[Check Sensor]
         TaskA --> TaskB[Update Display]
         TaskB --> TaskC[Process UART]
         TaskC --> Loop
-        Note1[If Sensor hangs, Display freezes!]
+        Note1["If Sensor hangs, Display freezes!"]
     end
 
     subgraph RTOS
         Sched((Scheduler))
-        Sched -.-> T1[Task A (Sensor)]
-        Sched -.-> T2[Task B (Display)]
-        Sched -.-> T3[Task C (UART)]
-        Note2[Scheduler switches tasks periodically]
+        Sched -.-> T1["Task A (Sensor)"]
+        Sched -.-> T2["Task B (Display)"]
+        Sched -.-> T3["Task C (UART)"]
+        Note2["Scheduler switches tasks periodically"]
     end
 ```
 
@@ -77,17 +77,17 @@ The #1 Embedded Interview Question.
 graph TD
     subgraph MUTEX_LOCKING
         TaskA((Task A)) --Takes Key--> Res[Resource]
-        TaskB((Task B)) --Tries to Enter--> Locked[Locked!]
+        TaskB((Task B)) --Tries to Enter--> Locked["Locked!"]
         TaskA --Unlocks--> Res
         TaskB --Now Enters--> Res
-        Note1[Ownership matters!]
+        Note1["Ownership matters!"]
     end
 
     subgraph SEMAPHORE_SIGNALING
         ISR[Hardware ISR] --Give Signal--> Sem[Semaphore]
         TaskC((Task C)) --Wait Signal--> Sem
         Sem --Wake Up--> TaskC
-        Note2[Synchronization!]
+        Note2["Synchronization!"]
     end
 ```
 
@@ -169,8 +169,7 @@ graph TD
     Task1 --Read X=5--> Global
     Interrupt --Write X=10--> Global
     Task1 --Write X+1 (6)--> Global
-    Note[Result is 6. The 10 update is LOST! Data Corruption.]
-
+    NoteCorruption["Result is 6. The 10 update is LOST! Data Corruption."]
     style Global fill:#f99
 ```
 

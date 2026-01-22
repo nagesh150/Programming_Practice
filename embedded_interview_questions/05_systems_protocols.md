@@ -27,7 +27,7 @@ graph TD
         Master --SDA/SCL--> Bus((Bus Line))
         Bus --> Slave1
         Bus --> Slave2
-        Bus --> Slave3[Slave 3 (Addr 0x50)]
+        Bus --> Slave3["Slave 3 (Addr 0x50)"]
         Note2[Multi-Drop]
     end
 
@@ -59,7 +59,7 @@ graph BT
     DevA --Switch--> GND
     DevB --Switch--> GND
 
-    Note[Default: Line is HIGH (VCC). Getting LOW requires Pull-Down.]
+    NoteDefault["Default: Line is HIGH (VCC). Getting LOW requires Pull-Down."]
 ```
 
 ---
@@ -95,7 +95,7 @@ block-beta
 
     block:Drifting
     Start D0 D1 D2 D3 D4 D5 D6 ... ...
-    Note: "Receiver looks for Stop here but sees Data!"
+    NoteError["Receiver looks for Stop here but sees Data!"]
     end
 ```
 
@@ -112,15 +112,18 @@ A fast ISR will detect 50 presses!
 ### 🖼️ Visualization
 
 ```mermaid
-xychart-beta
-    title "Button Signal Reality"
-    x-axis [0ms, 5ms, 10ms, 15ms, 20ms]
-    y-axis "Voltage" 0 --> 1
-    line [0, 1, 0, 1, 0, 0.5, 1, 1]
+graph LR
+    T0["0ms: 0V"] --> T1["1ms: 3.3V"]
+    T1 --> T2["2ms: 0V"]
+    T2 --> T3["5ms: 3.3V"]
+    T3 --> T4["10ms: 0V"]
+    T4 --> T20["20ms: 3.3V (Stable)"]
 
-    check "ISR Firing" [0, 1, 0, 1, 0, 0, 1, 0]
-
-    text "Stable" at 20ms
+    style T1 fill:#f99
+    style T2 fill:#f99
+    style T3 fill:#f99
+    style T4 fill:#f99
+    style T20 fill:#9f9
 ```
 
 ---

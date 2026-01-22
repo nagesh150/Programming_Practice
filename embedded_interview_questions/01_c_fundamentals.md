@@ -265,7 +265,7 @@ block-beta
         pad6["PAD (1B)"]
     end
 
-    Note: "Total Size = 12 Bytes (Lots of waste!)"
+    NoteOne["Note: Total Size = 12 Bytes (Lots of waste!)"]
 ```
 
 **Packed (Reordered):** `struct { int b; char a; char c; }`
@@ -283,7 +283,7 @@ block-beta
         c["c (1B)"]
         pad["PAD (2B)"]
     end
-    Note: "Total Size = 8 Bytes (Better!)"
+    NoteTwo["Note: Total Size = 8 Bytes (Better!)"]
 ```
 
 ### 💻 Code Example
@@ -389,13 +389,13 @@ int main() {
 ```mermaid
 graph TD
     subgraph "Macro Logic"
-        M[SQUARE(a++)] -->|Preprocessor| E[a++ * a++]
-        E -->|Execution| R[Result wrong, a incremented twice]
+        M["SQUARE(a++)"] -->|Preprocessor| E["a++ * a++"]
+        E -->|Execution| R["Result wrong, a incremented twice"]
     end
 
     subgraph "Inline Function Logic"
-        I[square(a++)] -->|Compiler| F[Call square(val)]
-        F -->|Execution| R2[Result correct, a incremented once]
+        I["square(a++)"] -->|Compiler| F["Call square(val)"]
+        F -->|Execution| R2["Result correct, a incremented once"]
     end
 ```
 
@@ -414,18 +414,18 @@ graph TD
 block-beta
     columns 2
     block:Stack
-       "a[] (Stack)"
+       StrStack["a[] (Stack)"]
        space
        H["H"] e["e"] l["l"] l2["l"] o["o"]
-       Note: "Writable"
+       NoteOne["Writable"]
     end
 
     block:ROData
-       "String Literal\n(Flash/RO)"
+       StrLit["String Literal<br>(Flash/RO)"]
        L_H["H"] L_e["e"] L_l["l"] L_l2["l"] L_o["o"]
 
        p["*p (Pointer)"] --> L_H
-       Note: "Read Only!"
+       NoteTwo["Read Only!"]
     end
 ```
 
@@ -446,19 +446,19 @@ A = A ^ B
 
 ```mermaid
 graph TD
-    A[A = 5 (0101)]
-    B[B = 3 (0011)]
+    A["A = 5 (0101)"]
+    B["B = 3 (0011)"]
 
-    Step1[A = A^B (0110)]
-    Step2[B = A^B (0110^0011 = 0101 = 5)]
-    Step3[A = A^B (0110^0101 = 0011 = 3)]
+    Step1["A = A^B (0110)"]
+    Step2["B = A^B (0110^0011 = 0101 = 5)"]
+    Step3["A = A^B (0110^0101 = 0011 = 3)"]
 
     A --> Step1
     B --> Step1
     Step1 --> Step2
     Step2 --> Step3
 
-    Result[A=3, B=5 SWAPPED]
+    Result["A=3, B=5 SWAPPED"]
 ```
 
 ---
@@ -476,17 +476,17 @@ graph TD
 graph BT
     subgraph RAM_Layout
         High[High Address]
-        Stack[Stack (Grows Down)]
+        Stack["Stack (Grows Down)"]
         Free[Free Space]
-        Heap[Heap (Grows Up)]
+        Heap["Heap (Grows Up)"]
         BSS[Global/Static Vars]
         Code[Code/Text]
         Low[Low Address]
     end
 
     Stack -->|Recursive Calls| Free
-    Heap -->|malloc()| Free
-    Note[Collision = Stack Overflow!]
+    Heap -->|"malloc()"| Free
+    Free -.- CollisionNode["Collision = Stack Overflow!"]
 ```
 
 ---
@@ -524,7 +524,7 @@ Always initialize pointers to `NULL`!
 
 ```mermaid
 graph LR
-    P1[Uninitialized ptr] -.-x|?| R1[Random Memory (Could be OS code!)]
+    P1[Uninitialized ptr] -.-x|?| R1["Random Memory (Could be OS code!)"]
     P2[NULL ptr] -->|0x00| Z[Zero Address]
 
     style R1 fill:#f00

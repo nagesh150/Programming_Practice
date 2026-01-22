@@ -18,16 +18,16 @@ An embedded program isn't just one blob. It's divided into sections based on how
 ```mermaid
 graph BT
     subgraph RAM_Memory [RAM]
-        Stack[Stack (Grows Down)]
+        Stack["Stack (Grows Down)"]
         Free[Free Space]
-        Heap[Heap (Grows Up)]
-        BSS[.bss (Zero Init)]
-        Data[.data (Initialized)]
+        Heap["Heap (Grows Up)"]
+        BSS[".bss (Zero Init)"]
+        Data[".data (Initialized)"]
     end
 
     subgraph Flash_Memory [Flash]
-        Text[.text (Code)]
-        RO[.rodata (Constants)]
+        Text[".text (Code)"]
+        RO[".rodata (Constants)"]
         DataCopy[Copy of .data Initial Values]
     end
 
@@ -52,7 +52,7 @@ sequenceDiagram
     participant Reset as Reset Handler
     participant RAM
     participant Flash
-    participant Main as main()
+    participant Main as "main()"
 
     Reset->>Reset: Disable Interrupts
     Reset->>Reset: Initialize Stack Pointer (SP)
@@ -84,7 +84,7 @@ block-beta
     end
     block:OtherMemory
         H1["Heap / Variables"]
-        Note: "Corrupted by Stack!"
+        NoteOne["Note: Corrupted by Stack!"]
     end
 
     S3 --> BOOM
@@ -107,13 +107,13 @@ block-beta
     columns 4
     block:Aligned
         addr00["0x00"] addr01["0x01"] addr02["0x02"] addr03["0x03"]
-        Note: "CPU fetches this entire row in 1 cycle"
+        NoteOne["Note: CPU fetches this entire row in 1 cycle"]
     end
 
     block:Unaligned Access
         space
         U1["Data"] U2["Data"] U3["Data"] U4["Data"]
-        Note: "Int starting at 0x01 spans TWO rows!"
+        NoteTwo["Note: Int starting at 0x01 spans TWO rows!"]
     end
 ```
 
@@ -135,7 +135,7 @@ block-beta
     block:HeapStart
         Used Free Used Free Used
     end
-    Note: "Total Free = 2KB, but biggest block = 1KB. malloc(2KB) FAILS!"
+    NoteOne["Note: Total Free = 2KB, but biggest block = 1KB. malloc(2KB) FAILS!"]
 ```
 
 ---
@@ -159,17 +159,19 @@ Hardware peripherals (UART, GPIO) look like Memory Addresses to the CPU. Writing
 ### 🖼️ Visualization
 
 ```mermaid
-classDiagram
-    class AddressSpace {
-        0x00000000 (Flash)
-        0x20000000 (SRAM)
-        0x40000000 (Peripherals)
-    }
-    class Peripheral {
-        0x40000004 -> UART_DR
-        Write 'A' -> Sends 'A' on wire
-    }
-    AddressSpace --|> Peripheral : Maps to
+graph TD
+    subgraph AddressSpace [Address Space]
+        Flash["0x00000000 (Flash)"]
+        SRAM["0x20000000 (SRAM)"]
+        PeriphBase["0x40000000 (Peripherals)"]
+    end
+
+    subgraph Peripheral [Peripheral Detail]
+        UART_DR["0x40000004 -> UART_DR"]
+        Action["Write 'A' -> Sends 'A' on wire"]
+    end
+
+    PeriphBase --> Peripheral
 ```
 
 ### 💻 Code Example

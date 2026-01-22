@@ -17,11 +17,11 @@ block-beta
     end
     block:Mask
         0 0 0 0 0 1 0 0
-        Note: "(1 << 2)"
+        NoteMask["(1 << 2)"]
     end
     block:After
         0 0 0 0 0 1["1 (SET)"] 0 0
-        Note: "Result of OR"
+        NoteAfter["Result of OR"]
     end
 
     style After fill:#dfd
@@ -57,11 +57,11 @@ block-beta
     end
     block:Mask
         1 1 1 1 1 0 1 1
-        Note: "~(1 << 2)"
+        NoteMask["~(1 << 2)"]
     end
     block:After
         0 0 0 0 0 0["0 (CLEARED)"] 0 0
-        Note: "Result of AND"
+        NoteAfter["Result of AND"]
     end
 ```
 
@@ -124,7 +124,7 @@ block-beta
     end
     block:Mask
         0 0 0 0 1 0 0 0
-        Note: "(1 << 3) Selects R3"
+        NoteMask["(1 << 3) Selects R3"]
     end
     block:Result
         0 0 0 0 R3 0 0 0
@@ -157,7 +157,7 @@ block-beta
     block:Row1
         b3 b2 b1 b0 a3 a2 a1 a0
     end
-    Note: "Variable 'b' (4 bits) | Variable 'a' (4 bits) -- Total 1 Byte"
+    NoteVal["Variable 'b' (4 bits) | Variable 'a' (4 bits) -- Total 1 Byte"]
 ```
 
 ### 💻 Code Example
@@ -191,9 +191,9 @@ Reg: `0b10110100` (Want bits 4-6, value `101` i.e., 5)
 
 ```mermaid
 graph LR
-    Step1[10[110]100] -->|AND Mask 0x70| Step2[00[110]000]
-    Step2 -->|Right Shift >> 4| Step3[00000[110]]
-    Step3 --> Result[Value = 5]
+    Step1["10[110]100"] -->|AND Mask 0x70| Step2["00[110]000"]
+    Step2 -->|Right Shift >> 4| Step3["00000[110]"]
+    Step3 --> Result["Value = 5"]
 ```
 
 ### 💻 Code Example
@@ -232,19 +232,19 @@ Formula: `((x & 0x0F) << 4) | ((x & 0xF0) >> 4)`
 
 ```mermaid
 graph TD
-    Start[0xAB (1010 1011)]
+    Start["0xAB (1010 1011)"]
 
-    Left[Left Part: 1010]
-    Right[Right Part: 1011]
+    Left["Left Part: 1010"]
+    Right["Right Part: 1011"]
 
     Start --> Left
     Start --> Right
 
-    Left -->|Shift Right >> 4| LeftNew[0000 1010]
-    Right -->|Shift Left << 4| RightNew[1011 0000]
+    Left -->|Shift Right >> 4| LeftNew["0000 1010"]
+    Right -->|Shift Left << 4| RightNew["1011 0000"]
 
     LeftNew -->|OR| Final
-    RightNew -->|OR| Final[0xBA (1011 1010)]
+    RightNew -->|OR| Final["0xBA (1011 1010)"]
 ```
 
 ---
@@ -264,7 +264,7 @@ Val: `0000 0001 0000 ....` (32 bit)
 block-beta
     columns 8
     0 0 0 0 0 0 0 1
-    Note: "7 Leading Zeros"
+    NoteVal["7 Leading Zeros"]
 ```
 
 ---
@@ -282,7 +282,7 @@ graph LR
     Bit0 -->|Moves| Orbit[Around]
     Orbit -->|Enters| Bit7
 
-    Box[7 6 5 4 3 2 1 0]
+    Box["7 6 5 4 3 2 1 0"]
 ```
 
 ### 💻 Code Example
@@ -315,11 +315,11 @@ block-beta
     end
     block:Xsub1
     1 0 1 1
-    Note: "x - 1"
+    NoteOne["x - 1"]
     end
     block:Result
     1 0 0 0
-    Note: "Lowest set bit cleared!"
+    NoteTwo["Lowest set bit cleared!"]
     end
 ```
 
@@ -351,12 +351,12 @@ Critical for encoders (motors) and clock domain crossing to prevent glitch state
 graph TD
     subgraph Binary
         B1[01] -->|2 bits change!| B2[10]
-        Note1[Risk: Might momentarily read 00 or 11]
+        Note1["Risk: Might momentarily read 00 or 11"]
     end
 
     subgraph GrayCode
         G1[01] -->|1 bit changes| G2[11]
-        Note2[Safe!]
+        Note2["Safe!"]
     end
 ```
 
