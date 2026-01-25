@@ -1,5 +1,8 @@
 # 🎯 Part 1: Array Problems (Questions 1-15)
 
+> **💡 Stuck on Medium Questions?**
+> Check out the new guide: [Mastering Medium Problems for Embedded Engineers](./00_MASTERING_MEDIUM_PROBLEMS.md)
+
 ## Question 1: Find Maximum Element in Array
 
 ### Problem
